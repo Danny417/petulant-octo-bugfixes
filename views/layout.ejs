@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title>Status</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <!--
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <!--STYLES END-->
+
+  </head>
+
+  <body ng-controller="nodeCtrl">
+
+    <% include partials/navbar %>
+    <%- body %>
+
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+    	var map;
+    	var nodes = <%- JSON.stringify(nodes) %> ;
+
+    	var app = angular.module('app', []);
+    	app.controller('nodeCtrl', function($scope, $log, $http) {
+    		$scope.nodeList = <%- JSON.stringify(nodes) %> ;
+        $scope.node = {};
+        $scope.shutdown = function(key) {
+          $http.post('/shutdown', {node: key}).
+            success(function(data, status) {
+              $log.debug(data);
+            }).
+            error(function(data, status) {
+              $log.debug(data);
+            });
+        };
+    		$scope.filterByText = function(items) {
+    			if($scope.searchText == null || $scope.searchText === '') return items;
+    			var result = {};
+    			angular.forEach(items, function(value, key) {
+    				if ((!!value.ip && value.ip.indexOf($scope.searchText) > -1) ||
+    							(!!value.hostname && value.hostname.indexOf($scope.searchText) > -1)) {
+    						result[key] = value;
+    				}
+    			});
+    			return result;
+    		};
+        $scope.hexDecode = function(str){
+          return str.match(/.{1,2}/g).map(function(v){
+            return String.fromCharCode(parseInt(v, 16));
+          }).join('');
+        }
+        $scope.hexEncode = function(str){
+            var hex = "",
+                i;
+            for (i=0; i<str.length; i++) {
+                hex += str.charCodeAt(i).toString(16);
+            }
+            return hex;
+        }
+        $scope.cancel = function() {
+        };
+        $scope.thisKVStore = function(node) {
+          if(!node || !node.kvstore) return {};
+          var result = {};
+          for(var i = 0; i < node.kvstore.length; i++) {
+            if(node.kvstore[i].hostname === '127.0.0.1' ||
+              node.kvstore[i].hostname === node.hostname ||
+              node.kvstore[i].hostname === node.ip) {
+              return node.kvstore[i].kvstore;
+            }
+          }
+          return result;
+        };
+        $scope.showDetail = function(key) {
+          angular.element(".modal-title").text(key);
+          $scope.node = key;
+          $log.debug($scope.nodeList[key].kvstore);
+          angular.element("#detail").modal('show');
+        };
+        $scope.showLog = function(key) {
+          angular.element(".modal-title").text(key);
+          $scope.node = key;
+          angular.element("#log").modal('show');
+        }
+    	});
+
+    	$(document).ready(function() {
+    		io.socket.on('nodeUpdate', function(newNode) {
+    			console.log(newNode);
+    			if (!!nodes[newNode.hostname] && !!(nodes[newNode.hostname]["overlay"]) &&
+    					(newNode.logs.length > 0 || !nodes[newNode.hostname].status)) {
+    				setTimeout((function(overlay) {
+    					return function() {
+    						overlay.setMap(null);
+    						overlay = null;
+    					};
+    				})(nodes[newNode.hostname].overlay), 3000);
+    			}
+    			nodes[newNode.hostname] = newNode;
+    			drawNode(newNode);
+    			var scope = angular.element($('body')).scope();
+    			scope.$apply(function() {
+    				scope.nodeList[newNode.hostname] = newNode;
+    			});
+    		});
+    	});
+
+    </script>
+
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/bootstrap.js"></script>
+    <script src="/js/dependencies/map.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>
