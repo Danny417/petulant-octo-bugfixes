@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ./assets/js/angular.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">./assets/js/angular.js</span></h1>
+    <h2>
+        Statements: <span class="metric">67.16% <small>(45 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">75.86% <small>(22 / 29)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">42.86% <small>(9 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">66.15% <small>(43 / 65)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">./assets/js/</a> &#187; angular.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">80</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var app = angular.module('app', []);
+app.controller('nodeCtrl', function($scope, $log, $http) {
+	$scope.nodeList = [];
+$scope.sets = [];
+$scope.node = {};
+$scope.selectNode = "Select Node";
+$scope.logs = [];
+$scope.selectingNode = <span class="fstat-no" title="function not covered" >function(name) {</span>
+<span class="cstat-no" title="statement not covered" >  $scope.selectNode = name;</span>
+};
+$scope.runTest = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >  $scope.logs = [];</span>
+<span class="cstat-no" title="statement not covered" >  var actions = [],</span>
+	  action;
+<span class="cstat-no" title="statement not covered" >  angular.forEach(angular.element('#sortable li'), <span class="fstat-no" title="function not covered" >function(value, key) {</span></span>
+<span class="cstat-no" title="statement not covered" >	action = {hostname:$scope.selectNode};</span>
+<span class="cstat-no" title="statement not covered" >	action.name = angular.element(value).attr('name');</span>
+<span class="cstat-no" title="statement not covered" >	angular.forEach(angular.element(value).children('input'), <span class="fstat-no" title="function not covered" >function(value, key) {</span></span>
+<span class="cstat-no" title="statement not covered" >	  action[angular.element(value).attr('name')] = angular.element(value).val();</span>
+	});
+<span class="cstat-no" title="statement not covered" >	actions.push(action);</span>
+  });
+<span class="cstat-no" title="statement not covered" >  $http.post('/testAction', actions).</span>
+	success(<span class="fstat-no" title="function not covered" >function(data, status) {</span>
+<span class="cstat-no" title="statement not covered" >	  $log.debug(data);</span>
+	}).
+	error(<span class="fstat-no" title="function not covered" >function(data, status) {</span>
+<span class="cstat-no" title="statement not covered" >	  $log.debug(data);</span>
+	});
+};
+$scope.showUpload = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >  angular.element("#upload").modal('show');</span>
+};
+$scope.shutdown = <span class="fstat-no" title="function not covered" >function(key) {</span>
+<span class="cstat-no" title="statement not covered" >  $http.post('/shutdown', {node: key}).</span>
+	success(<span class="fstat-no" title="function not covered" >function(data, status) {</span>
+<span class="cstat-no" title="statement not covered" >	  $log.debug(data);</span>
+	}).
+	error(<span class="fstat-no" title="function not covered" >function(data, status) {</span>
+<span class="cstat-no" title="statement not covered" >	  $log.debug(data);</span>
+	});
+};
+$scope.filterBySet = function(set) {
+  var result = {};
+  angular.forEach(set, function(hostname) {
+	var value = $scope.nodeList[hostname];
+	<span class="missing-if-branch" title="else path not taken" >E</span>if ( hostname !== "" &amp;&amp; (
+	  $scope.searchText == null ||
+<span class="branch-2 cbranch-no" title="branch not covered" >	  $scope.searchText === '' </span>||
+	  (<span class="branch-3 cbranch-no" title="branch not covered" >!!value.ip </span>&amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >value.ip.indexOf($scope.searchText) &gt; -1)</span> ||
+				(<span class="branch-5 cbranch-no" title="branch not covered" >!!value.hostname </span>&amp;&amp; <span class="branch-6 cbranch-no" title="branch not covered" >value.hostname.indexOf($scope.searchText) &gt; -1)</span>)) {
+					result[hostname] = value;
+			}
+  });
+  return result;
+};
+	$scope.filterByText = function(items) {
+		if($scope.searchText == null || $scope.searchText === '') return items;
+		var result = {};
+		angular.forEach(items, function(value, key) {
+			if ((!!value.ip &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >value.ip.indexOf($scope.searchText) &gt; -1)</span> ||
+						(!!value.hostname &amp;&amp; value.hostname.indexOf($scope.searchText) &gt; -1)) {
+					result[key] = value;
+			}
+		});
+		return result;
+	};
+$scope.hexDecode = function(str){
+  return str.match(/.{1,2}/g).map(function(v){
+	return String.fromCharCode(parseInt(v, 16));
+  }).join('');
+}
+$scope.hexEncode = function(str){
+	var hex = "",
+		i;
+	for (i=0; i&lt;str.length; i++) {
+		hex += str.charCodeAt(i).toString(16);
+	}
+	return hex;
+}
+$scope.thisKVStore = function(node) {
+  if(!node || !node.kvstore) return {};
+  var result = {};
+  for(var i = 0; i &lt; node.kvstore.length; i++) {
+	if(!node.kvstore[i].status || node.kvstore[i].hostname === '127.0.0.1'
+	  || node.kvstore[i].hostname === node.hostname || node.kvstore[i].hostname === node.ip) {
+	  for(var key in node.kvstore[i].kvstore) {
+		result[key] = node.kvstore[i].kvstore[key];
+	  }
+	}
+  }
+  return result;
+};
+$scope.showDetail = <span class="fstat-no" title="function not covered" >function(key) {</span>
+<span class="cstat-no" title="statement not covered" >  angular.element(".modal-title").text(key);</span>
+<span class="cstat-no" title="statement not covered" >  $scope.node = key;</span>
+<span class="cstat-no" title="statement not covered" >  angular.element("#detail").modal('show');</span>
+};
+$scope.showLog = <span class="fstat-no" title="function not covered" >function(key) {</span>
+<span class="cstat-no" title="statement not covered" >  angular.element(".modal-title").text(key);</span>
+<span class="cstat-no" title="statement not covered" >  $scope.node = key;</span>
+<span class="cstat-no" title="statement not covered" >  angular.element("#log").modal('show');</span>
+}
+});</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 10 2015 14:04:48 GMT-0700 (Pacific Daylight Time)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
