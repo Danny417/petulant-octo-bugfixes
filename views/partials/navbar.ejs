@@ -5,24 +5,23 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="/">Map</a>
   </div>
   <div class="navbar-collapse collapse navbar-responsive-collapse">
     <ul class="nav navbar-nav">
+      <li>
+      <a href="/">Node List<span class="sr-only">(current)</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/test">Commands</a></li>
       <li class="dropdown">
-        <a href="" class="dropdown-toggle" data-toggle="dropdown">Control Services<b class="caret"></b></a>
+        <a href="" class="dropdown-toggle" data-toggle="dropdown">Sets<b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a tabindex="-1" href="" onclick="update()">Update</a></li>
-  			  <li><a href="" onclick="serviceCmd('start')">Start</a></li>
-  			  <li><a href="" onclick="serviceCmd('stop')">Stop</a></li>
-  			  <li><a href="" onclick="serviceCmd('exit')">Exit</a></li>
+          <li><a tabindex="-1" href="" ng-click="showUpload()" >Upload</a></li>
+  			  <li><a href="/clearUpload" >Clear</a></li>
         </ul>
-      </li>
-      <li><a href="/nodeList">Node List<span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="navbar-form navbar-left">
-      <input type="text" class="form-control col-lg-8" placeholder="Search" ng-model="searchText">
+      <input type="text" class="form-control col-lg-8" placeholder="Search Node" ng-model="searchText">
     </form>
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="#">Refresh every 30 seconds</a></li>

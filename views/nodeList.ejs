@@ -1,33 +1,81 @@
-<table id="statusTable" class="table table-striped table-hover">
-  <tr>
-    <th></th>
-    <th>Host Name</th>
-    <th>IP</th>
-    <th>Status</th>
-    <th>Logs</th>
-    <th>Available Space(MB)</th>
-    <th>Uptime</th>
-    <th>Service Uptime</th>
-    <th>Average Load</th>
-    <th>Terminate</th>
-  </tr>
-  <tr ng-repeat="(key, value) in filterByText(nodeList)" ng-class="{'warning':(!value.status)}">
-    <td ng-bind="value.index"></td>
-    <td><a href="" ng-click="showDetail(key)" ng-bind="key"></a></td>
-    <td ng-bind="value.ip"></td>
-    <td>
-      <img src="/images/ok-18.png" alt="ok" ng-if="value.status == true">
-      <img src="/images/warning-16.png" alt="warning" ng-if="value.status == 'warning'">
-      <img src="/images/error-16.png" alt="error" ng-if="!value.status">
-    </td>
-    <td><a href="" ng-click="showLog(key)">Logs</a></td>
-    <td ng-bind="value.spaceAvailable"></td>
-    <td ng-bind="value.systemUptime"> </td>
-    <td ng-bind="value.serviceUptime"></td>
-    <td ng-bind="value.averageLoads"></td>
-    <td><button type="button" class="btn btn-danger" ng-click="shutdown(key)" ng-hide="!value.status">Terminate</button></td>
-  </tr>
-</table>
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
+    <li role="presentation" ng-repeat="set in sets"><a href="#set{{$index}}" aria-controls="set{{$index}}" role="tab" data-toggle="tab">Set {{$index}}</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="all">
+      <table id="statusTable" class="table table-striped table-hover">
+        <tr>
+          <th></th>
+          <th>Host Name</th>
+          <th>IP</th>
+          <th>Status</th>
+          <th>Logs</th>
+          <th>Available Space(MB)</th>
+          <th>Uptime</th>
+          <th>Service Uptime</th>
+          <th>Average Load</th>
+          <th>Terminate</th>
+        </tr>
+        <tr ng-repeat="(key, value) in filterByText(nodeList)" ng-class="{'danger':(!value.status)}">
+          <td ng-bind="value.index"></td>
+          <td><a href="" ng-click="showDetail(key)" ng-bind="key"></a></td>
+          <td ng-bind="value.ip"></td>
+          <td>
+            <img src="/images/ok-18.png" alt="ok" ng-if="value.status == true">
+            <img src="/images/warning-16.png" alt="warning" ng-if="value.status == 'warning'">
+            <img src="/images/error-16.png" alt="error" ng-if="!value.status">
+          </td>
+          <td><a href="" ng-click="showLog(key)">Logs</a></td>
+          <td ng-bind="value.spaceAvailable"></td>
+          <td ng-bind="value.systemUptime"> </td>
+          <td ng-bind="value.serviceUptime"></td>
+          <td ng-bind="value.averageLoads"></td>
+          <td><button type="button" class="btn btn-danger btn-sm" ng-click="shutdown(key)" ng-hide="!value.status">Terminate</button></td>
+        </tr>
+      </table>
+    </div>
+    <div role="tabpanel" class="tab-pane" ng-repeat="set in sets" id="set{{$index}}">
+      <table class="table table-striped table-hover">
+      <tr>
+        <th></th>
+        <th>Host Name</th>
+        <th>IP</th>
+        <th>Status</th>
+        <th>Logs</th>
+        <th>Available Space(MB)</th>
+        <th>Uptime</th>
+        <th>Service Uptime</th>
+        <th>Average Load</th>
+        <th>Terminate</th>
+      </tr>
+      <tr ng-repeat="(key, value) in filterBySet(set)" ng-class="{'danger':(!value.status)}">
+        <td ng-bind="value.index"></td>
+        <td><a href="" ng-click="showDetail(key)" ng-bind="key"></a></td>
+        <td ng-bind="value.ip"></td>
+        <td>
+          <img src="/images/ok-18.png" alt="ok" ng-if="value.status == true">
+          <img src="/images/warning-16.png" alt="warning" ng-if="value.status == 'warning'">
+          <img src="/images/error-16.png" alt="error" ng-if="!value.status">
+        </td>
+        <td><a href="" ng-click="showLog(key)">Logs</a></td>
+        <td ng-bind="value.spaceAvailable"></td>
+        <td ng-bind="value.systemUptime"> </td>
+        <td ng-bind="value.serviceUptime"></td>
+        <td ng-bind="value.averageLoads"></td>
+        <td><button type="button" class="btn btn-danger btn-sm" ng-click="shutdown(key)" ng-hide="!value.status">Terminate</button></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+</div>
+
 <div class="modal fade" id="log" tabindex="-1" role="dialog" aria-labelledby="insertLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:80%">
 		<div class="modal-content">
@@ -42,7 +90,7 @@
           <table class="table">
             <th>time</th><th>type</th><th>log</th><th>trace</th>
             <tr ng-repeat="log in nodeList[node].logs | orderBy: 'time':true | limitTo: 100">
-              <td style="width:220px">{{log.time | date:'yyyy-MM-dd HH:mm'}}</td>
+              <td style="width:220px">{{log.time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               <td style="width:120px">{{log.type}}</td>
               <td style="width:300px">{{log.log}}</td>
               <td style="width:500px">{{log.trace}}</td>
@@ -66,7 +114,7 @@
 				<h4 class="modal-title"></h4>
 			</div>
 			<div class="modal-body form-horizontal row" >
-        <div class="panel panel-default" style="overflow-y:auto;height:300px">
+        <div class="panel panel-default" style="overflow-y:auto;height:200px">
           <div class="panel-heading">KV Store</div>
           <table class="table">
             <tr>
@@ -75,6 +123,21 @@
             <tr ng-repeat="(key, value) in thisKVStore(nodeList[node])">
               <td>{{hexDecode(key)}}</td>
               <td>{{hexDecode(value)}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="panel panel-default" style="overflow-y:auto;height:200px">
+          <div class="panel-heading">Successors</div>
+          <table class="table">
+            <th>index</th><th>hostname</th><th>last updated</th><th>status</th>
+            <tr ng-repeat="n in nodeList[node].kvstore" ng-hide="n.hostname === nodeList[node].hostname || n.hostname === '127.0.0.1'" ng-class="{'danger':(!n.status)}">
+              <td>{{n.location}}</td>
+              <td>{{n.hostname}}</td>
+              <td>{{n.lastUpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>
+                <img src="/images/ok-18.png" alt="ok" ng-if="n.status == true">
+                <img src="/images/error-16.png" alt="error" ng-if="!n.status">
+              </td>
             </tr>
           </table>
         </div>

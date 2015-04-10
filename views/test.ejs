@@ -1,0 +1,58 @@
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+  <style>
+  .ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; border: 1px solid #eee;float: left;width: 200px; }
+  #sortable li { margin: 5px; padding: 5px; width: 150px; }
+  input {width:100px}
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      revert: true
+    });
+    $( ".draggable" ).draggable({
+      connectToSortable: "#sortable",
+      helper: "clone",
+      revert: "invalid"
+    });
+    $( "ul, li" ).disableSelection();
+  });
+  </script>
+
+<ul class="ul">
+  <li class="draggable ui-state-highlight" name="get">
+    GET<br/>
+    <input name="key" placeholder="key"></li>
+  <li class="draggable ui-state-highlight" name="put">
+    PUT<br/>
+    <input name="key" placeholder="key">
+    <input name="value" placeholder="value"></li>
+  <li class="draggable ui-state-highlight" name="remove">
+    REMOVE<br/>
+    <input name="key" placeholder="key"></li>
+</ul>
+
+<ul id="sortable" class="ul" style="height:500px;width:400px;overflow-y:auto;"> Drop commands here
+</ul>
+<div class="panel panel-default" style="height:400px;width:500px;float:right">
+  <div class="panel-heading">Logs</div>
+  <table class="table">
+    <tr ng-repeat="log in logs track by $index">
+      <td>{{log}}</td>
+    </tr>
+  </table>
+</div>
+
+  <div class="dropup" style="position:absolute;bottom:10px">
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+      {{selectNode}}
+      <span class="caret"></span>
+    </button>
+    <button class="btn btn-primary" type="button" ng-click="runTest()">Run</button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="overflow-y:auto;height:200px">
+      <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="" ng-repeat="(key, value) in filterByText(nodeList)" ng-click="selectingNode(value.hostname)">{{value.hostname}}</a>
+      </li>
+    </ul>
+  </div>

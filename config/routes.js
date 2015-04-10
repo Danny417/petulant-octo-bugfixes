@@ -32,7 +32,7 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  '/': 'NodeController.get',
+  '/': 'NodeController.getList',
 
   /***************************************************************************
    *                                                                          *
@@ -44,6 +44,10 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  'get /nodeList': "NodeController.getList",
-  'post /shutdown': "NodeController.shutdown"
+  'get /map': "NodeController.get",
+  'post /shutdown': "NodeController.shutdown",
+  'post /upload': "NodeController.uploadSet",
+  'get /clearUpload': "NodeController.clearUpload",
+  'get /test': "NodeController.getTest",
+  'post /testAction': "NodeController.testAction"
 };

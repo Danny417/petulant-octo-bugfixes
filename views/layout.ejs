@@ -37,6 +37,7 @@
   </head>
 
   <body ng-controller="nodeCtrl">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
     <% include partials/navbar %>
     <%- body %>
@@ -45,97 +46,70 @@
     <!--TEMPLATES-->
     
     <!--TEMPLATES END-->
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+      <form id="uploadForm"
+            enctype="multipart/form-data"
+            action="/upload"
+            method="post">
+    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="insertLabel" aria-hidden="true">
+    	<div class="modal-dialog" style="width:80%">
+    		<div class="modal-content">
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal" ng-click="cancel()">
+    				<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    				<h4 class="modal-title">Upload a Set</h4>
+    			</div>
+    			<div class="modal-body form-horizontal row" >
+                	<input type="file" name="uploadFile"/>
+                	<button type="submit" class="btn btn-primary">Submit</button>
+    			</div>
+
+    			<div class="modal-footer">
+    				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+  </form>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script>
     	var map;
     	var nodes = <%- JSON.stringify(nodes) %> ;
-
-    	var app = angular.module('app', []);
-    	app.controller('nodeCtrl', function($scope, $log, $http) {
-    		$scope.nodeList = <%- JSON.stringify(nodes) %> ;
-        $scope.node = {};
-        $scope.shutdown = function(key) {
-          $http.post('/shutdown', {node: key}).
-            success(function(data, status) {
-              $log.debug(data);
-            }).
-            error(function(data, status) {
-              $log.debug(data);
-            });
-        };
-    		$scope.filterByText = function(items) {
-    			if($scope.searchText == null || $scope.searchText === '') return items;
-    			var result = {};
-    			angular.forEach(items, function(value, key) {
-    				if ((!!value.ip && value.ip.indexOf($scope.searchText) > -1) ||
-    							(!!value.hostname && value.hostname.indexOf($scope.searchText) > -1)) {
-    						result[key] = value;
-    				}
-    			});
-    			return result;
-    		};
-        $scope.hexDecode = function(str){
-          return str.match(/.{1,2}/g).map(function(v){
-            return String.fromCharCode(parseInt(v, 16));
-          }).join('');
-        }
-        $scope.hexEncode = function(str){
-            var hex = "",
-                i;
-            for (i=0; i<str.length; i++) {
-                hex += str.charCodeAt(i).toString(16);
-            }
-            return hex;
-        }
-        $scope.cancel = function() {
-        };
-        $scope.thisKVStore = function(node) {
-          if(!node || !node.kvstore) return {};
-          var result = {};
-          for(var i = 0; i < node.kvstore.length; i++) {
-            if(node.kvstore[i].hostname === '127.0.0.1' ||
-              node.kvstore[i].hostname === node.hostname ||
-              node.kvstore[i].hostname === node.ip) {
-              return node.kvstore[i].kvstore;
-            }
-          }
-          return result;
-        };
-        $scope.showDetail = function(key) {
-          angular.element(".modal-title").text(key);
-          $scope.node = key;
-          $log.debug($scope.nodeList[key].kvstore);
-          angular.element("#detail").modal('show');
-        };
-        $scope.showLog = function(key) {
-          angular.element(".modal-title").text(key);
-          $scope.node = key;
-          angular.element("#log").modal('show');
-        }
-    	});
+      var title = "<%- title %>";
+	  var sets = <%- JSON.stringify(sets) %> ;
+    </script>
+	<script>
 
     	$(document).ready(function() {
     		io.socket.on('nodeUpdate', function(newNode) {
-    			console.log(newNode);
-    			if (!!nodes[newNode.hostname] && !!(nodes[newNode.hostname]["overlay"]) &&
-    					(newNode.logs.length > 0 || !nodes[newNode.hostname].status)) {
-    				setTimeout((function(overlay) {
-    					return function() {
-    						overlay.setMap(null);
-    						overlay = null;
-    					};
-    				})(nodes[newNode.hostname].overlay), 3000);
-    			}
+          if(title === 'map') {
+      			if (!!nodes[newNode.hostname] && !!(nodes[newNode.hostname]["overlay"]) &&
+      					(newNode.logs.length > 0 || !nodes[newNode.hostname].status)) {
+      				setTimeout((function(overlay) {
+      					return function() {
+      						overlay.setMap(null);
+      						overlay = null;
+      					};
+      				})(nodes[newNode.hostname].overlay), 3000);
+      			}
+      			drawNode(newNode);
+          }
     			nodes[newNode.hostname] = newNode;
-    			drawNode(newNode);
     			var scope = angular.element($('body')).scope();
     			scope.$apply(function() {
     				scope.nodeList[newNode.hostname] = newNode;
     			});
     		});
+
+        io.socket.on('logUpdate', function(msg) {
+          var scope = angular.element($('body')).scope();
+          scope.$apply(function() {
+            scope.logs.push(msg);
+          });
+        });
     	});
 
     </script>
@@ -144,6 +118,9 @@
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/dependencies/bootstrap.js"></script>
     <script src="/js/dependencies/map.js"></script>
+    <script src="/js/angular-mocks.js"></script>
+    <script src="/js/angular.js"></script>
+    <script src="/js/angular.min.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>
